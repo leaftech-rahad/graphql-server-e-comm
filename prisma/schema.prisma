@@ -10,36 +10,41 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum PayMethod {
+  Cash
+  Bkash
+  CreditCard
+}
+
+enum Area {
+  savar
+  uttora
+  DEPZ
+}
+
 model Product {
-  product_Id          String  @id @default(cuid())
-  product_name        String  @unique
-  product_description String?
-  product_usges       String?
-  product_weight      Int?
-  Image               Image[]
-
-  product_category    Product_category? @relation(fields: [product_category_Id], references: [category_Id])
-  product_category_Id String?
-
+  product_Id             String               @id @default(uuid())
+  product_name           String               @unique
+  product_description    String?
+  product_usges          String?
+  product_weight         Int?
+  Image                  Image[]
+  product_category       Product_category?    @relation(fields: [product_category_Id], references: [category_Id])
+  product_category_Id    String?
   product_subcategory    Product_subcategory? @relation(fields: [product_subcategory_Id], references: [subcategory_Id])
   product_subcategory_Id String?
-
-  Brand            Brand?  @relation(fields: [product_brand_Id], references: [brand_Id])
-  product_brand_Id String?
-
-  Purchase Purchase[]
-
-  Sales Sales[]
+  Brand                  Brand?               @relation(fields: [product_brand_Id], references: [brand_Id])
+  product_brand_Id       String?
+  Purchase               Purchase[]
+  Sales                  Sales[]
 
   @@index([product_name, product_Id])
 }
 
 model Purchase {
-  product_purchase_Id String @id @default(cuid())
-
-  purchased_product_Id String
-  product              Product @relation(fields: [purchased_product_Id], references: [product_Id])
-
+  product_purchase_Id           String   @id @default(uuid())
+  purchased_product_Id          String
+  product                       Product  @relation(fields: [purchased_product_Id], references: [product_Id])
   product_price_per_pcs         Float
   product_net_purchase_quantity Int
   product_net_purchase_price    Float
@@ -48,17 +53,15 @@ model Purchase {
   product_manufacturing_date    DateTime
   product_expiry_date           DateTime
   product_moved_to_shelf        Boolean
-
-  supplier  Supplier @relation(fields: [seller_Id], references: [supplier_Id])
-  seller_Id String
-
-  Store          Store           @relation(fields: [buyer_store_Id], references: [store_Id])
-  buyer_store_Id String
-  Product_shelf  Product_shelf[]
+  soldOut                       Boolean  @default(false)
+  supplier                      Supplier @relation(fields: [seller_Id], references: [supplier_Id])
+  seller_Id                     String
+  Store                         Store    @relation(fields: [buyer_store_Id], references: [store_Id])
+  buyer_store_Id                String
 }
 
 model Supplier {
-  supplier_Id         String   @id @default(cuid())
+  supplier_Id         String   @id @default(uuid())
   supplier_name       String
   supplier_email      String?
   supplier_phone      String
@@ -71,32 +74,26 @@ model Supplier {
 }
 
 model Store {
-  store_Id    String     @id @default(cuid())
+  store_Id    String     @id @default(uuid())
   store_Name  String
   store_Email String?
-  store_code  Int        @unique
+  store_code  Int        @unique @default(autoincrement())
   store_area  Area
   Purchase    Purchase[]
 
   @@index([store_code])
 }
 
-model Product_shelf {
-  shelf_Id         String   @id @default(cuid())
-  purchase         Purchase @relation(fields: [product_batch_Id], references: [product_purchase_Id])
-  product_batch_Id String
-  soldOut          Boolean  @default(false)
-  createdAt        DateTime @default(now())
-}
-
 model Brand {
-  brand_Id   String    @id @default(cuid())
-  brand_name String
+  brand_Id   String    @id @default(uuid())
+  brand_name String    @unique
   product    Product[]
+
+  @@index([brand_name])
 }
 
 model Product_category {
-  category_Id          String                @id @default(cuid())
+  category_Id          String                @id @default(uuid())
   category_name        String
   category_description String
   subcategory          Product_subcategory[]
@@ -104,16 +101,16 @@ model Product_category {
 }
 
 model Product_subcategory {
-  subcategory_Id          String           @id @default(cuid())
+  subcategory_Id          String           @id @default(uuid())
   subcategory_name        String
   subcategory_description String
-  product                 Product[]
   Product_category        Product_category @relation(fields: [product_category_Id], references: [category_Id])
   product_category_Id     String
+  product                 Product[]
 }
 
 model Image {
-  image_Id String @id @default(cuid())
+  image_Id String @id @default(uuid())
 
   product    Product @relation(fields: [product_Id], references: [product_Id])
   product_Id String
@@ -122,32 +119,30 @@ model Image {
 }
 
 model Customer {
-  customer_Id    String    @id @default(cuid())
+  customer_Id    String    @id @default(uuid())
   customer_Name  String
   customer_phone String    @unique
   customer_email String?   @unique
   customer_DOB   DateTime?
   created_at     DateTime  @default(now())
-  updated_at     DateTime  @default(now())
+  updated_at     DateTime  @updatedAt
   customer_area  Area      @default(savar)
 
   Sales Sales[]
 
   @@index([customer_phone, customer_email])
 }
+
 model Sales {
-  sale_Id        String   @id @default(cuid())
-  customer       Customer @relation(fields: [customer_Id], references: [customer_Id])
+  sale_Id        String    @id @default(uuid())
+  customer       Customer  @relation(fields: [customer_Id], references: [customer_Id])
   customer_Id    String
-  sale_date      DateTime @default(now())
-  product        Product  @relation(fields: [product_Id], references: [product_Id])
+  sale_date      DateTime  @default(now())
+  product        Product   @relation(fields: [product_Id], references: [product_Id])
   product_Id     String
   product_pcs    Int
   sale_net_price Float
-}
-
-enum Area {
-  savar
-  uttora
-  DEPZ
+  cancled_order  String
+  refunded_order String
+  payed_with     PayMethod @default(Cash)
 }
