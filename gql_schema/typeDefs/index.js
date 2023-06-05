@@ -9,10 +9,12 @@ import purchase from "./purchase.js";
 import sales from "./sales.js";
 import store from "./store.js";
 import supplier from "./supplier.js";
+import brand from "./brand.js";
 
 export default [
   root,
   customers,
+  brand,
   image,
   product_category,
   product_subcategory,

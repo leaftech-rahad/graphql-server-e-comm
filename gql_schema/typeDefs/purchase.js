@@ -6,28 +6,35 @@ export default gql`
   }
   extend type Mutation {
     makePurchase(
-      product_net_purchase_price: Float!
+      purchased_product_Id: String
       product_price_per_pcs: Float!
       product_net_purchase_quantity: Int!
+      product_net_purchase_price: Float!
       product_purchase_date: DateTime
       product_in_stock: Int
-      seller_Id: String!
-      buyer_store_Id: String!
+      product_manufacturing_date: DateTime
+      product_expiry_date: DateTime
+      product_moved_to_shelf: Boolean
+      soldOut: Boolean
+      seller_Id: String
+      buyer_store_Id: String
     ): Purchase
   }
   type Purchase {
     product_purchase_Id: ID!
-    product_net_purchase_price: Float!
+    purchased_product_Id: String
     product_price_per_pcs: Float!
     product_net_purchase_quantity: Int!
+    product_net_purchase_price: Float!
     product_purchase_date: DateTime
     product_in_stock: Int
+    product_manufacturing_date: DateTime
+    product_expiry_date: DateTime
+    product_moved_to_shelf: Boolean
+    soldOut: Boolean
+    seller_Id: String
+    buyer_store_Id: String
     createdAt: DateTime
-
-    product: Product
-
-    seller_Id: Supplier
-
-    buyer_store_Id: Store
+    updatedAt: DateTime
   }
 `;

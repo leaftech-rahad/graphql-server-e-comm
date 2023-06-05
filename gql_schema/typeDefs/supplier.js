@@ -7,7 +7,7 @@ export default gql`
   extend type Mutation {
     createSupplier(
       supplier_name: String!
-      supplier_email: String!
+      supplier_email: String
       supplier_phone: String!
       supplier_store_name: String!
       supplier_area: Area
@@ -16,11 +16,12 @@ export default gql`
   type Supplier {
     supplier_Id: ID!
     supplier_name: String!
-    supplier_email: String!
+    supplier_email: String
     supplier_phone: String!
     supplier_store_name: String!
     supplier_area: Area
     createdAt: DateTime
-    purchase: [Purchase]
+    updatedAt: DateTime
+    purchase: [Purchase!]!
   }
 `;

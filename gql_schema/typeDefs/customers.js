@@ -3,7 +3,7 @@ import gql from "graphql-tag";
 export default gql`
   extend type Query {
     getCustomer(customer_Id: ID!): Customer!
-    allCustomer: [Customer]
+    allCustomer: [Customer!]!
   }
 
   extend type Mutation {
@@ -13,7 +13,6 @@ export default gql`
       customer_email: String
       customer_DOB: DateTime
       customer_area: Area
-      customer_registration_store_Id: String!
     ): Customer
   }
   type Customer {
@@ -25,7 +24,6 @@ export default gql`
     created_at: DateTime
     updated_at: DateTime
     customer_area: Area
-    customer_registration_store_Id: String
-    sales: [Sales]
+    sales: [Sales!]!
   }
 `;

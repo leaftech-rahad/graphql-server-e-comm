@@ -5,7 +5,11 @@ export default gql`
     getImage(product_Id: String!): [Image!]!
   }
   extend type Mutation {
-    image_upload(file: Upload!, product_Id: String!): Image!
+    image_upload(
+      file: Upload!
+      product_Id: String!
+      image_description: String
+    ): Image!
   }
   type Image {
     image_Id: ID!

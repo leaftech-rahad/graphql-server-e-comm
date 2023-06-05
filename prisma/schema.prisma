@@ -58,25 +58,26 @@ model Purchase {
   seller_Id                     String
   Store                         Store    @relation(fields: [buyer_store_Id], references: [store_Id])
   buyer_store_Id                String
+  createdAt                     DateTime @default(now())
+  updatedAt                     DateTime @updatedAt
 }
 
 model Supplier {
-  supplier_Id         String   @id @default(uuid())
+  supplier_Id         String     @id @default(uuid())
   supplier_name       String
   supplier_email      String?
   supplier_phone      String
   supplier_store_name String
   supplier_area       Area
-  createdAt           DateTime @default(now())
-  updatedAt           DateTime @updatedAt
-
-  Purchase Purchase[]
+  createdAt           DateTime   @default(now())
+  updatedAt           DateTime   @updatedAt
+  Purchase            Purchase[]
 }
 
 model Store {
   store_Id    String     @id @default(uuid())
-  store_Name  String
-  store_Email String?
+  store_name  String
+  store_email String?
   store_code  Int        @unique @default(autoincrement())
   store_area  Area
   Purchase    Purchase[]
@@ -110,11 +111,12 @@ model Product_subcategory {
 }
 
 model Image {
-  image_Id String @id @default(uuid())
-
-  product    Product @relation(fields: [product_Id], references: [product_Id])
-  product_Id String
-
+  image_Id          String  @id @default(uuid())
+  product           Product @relation(fields: [product_Id], references: [product_Id])
+  product_Id        String
+  filename          String
+  mimetype          String
+  encoding          String
   image_description String
 }
 
@@ -142,7 +144,7 @@ model Sales {
   product_Id     String
   product_pcs    Int
   sale_net_price Float
-  cancled_order  String
-  refunded_order String
+  canceled_order Boolean
+  refunded_order Boolean
   payed_with     PayMethod @default(Cash)
 }

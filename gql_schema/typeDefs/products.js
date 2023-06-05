@@ -8,28 +8,26 @@ export default gql`
   extend type Mutation {
     createProduct(
       product_name: String!
-      product_category_Id: String!
-      product_subcategory_Id: String!
-      product_manufacturing_date: DateTime
-      product_expiry_date: DateTime
       product_description: String
       product_usages: String
       product_weight: Int
+      product_category_Id: String!
+      product_subcategory_Id: String!
+      product_brand_Id: String
     ): Product
   }
 
   type Product {
     product_Id: String!
     product_name: String!
-    product_category_Id: String!
-    product_subcategory_Id: String!
-    product_manufacturing_date: DateTime
-    product_expiry_date: DateTime
     product_description: String
     product_usages: String
     product_weight: Int
     image: [Image!]!
+    product_category_Id: String!
+    product_subcategory_Id: String!
+    product_brand_Id: String
+    purchase: [Purchase!]!
     sales: [Sales!]!
-    purchase_Id: String!
   }
 `;

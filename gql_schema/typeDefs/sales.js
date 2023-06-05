@@ -10,6 +10,8 @@ export default gql`
       product_Id: String!
       product_pcs: Int!
       sale_net_price: Float!
+      canceled_order: Boolean
+      refunded_order: Boolean
       paid_in_cash: PayMethod!
     ): Sales
   }
@@ -20,6 +22,8 @@ export default gql`
     product_Id: String!
     product_pcs: Int!
     sale_net_price: Float!
+    canceled_order: Boolean
+    refunded_order: Boolean
     paid_in_cash: PayMethod!
   }
 `;
