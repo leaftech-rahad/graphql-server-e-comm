@@ -19,7 +19,7 @@ const server = new ApolloServer({
   plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
   csrfPrevention: true,
   cache: "bounded",
-  graphiql: true,
+  //graphiql: true,
 });
 await server.start();
 app.use(

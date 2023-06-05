@@ -5,7 +5,6 @@ async function main() {
     data: {
       customer_Name: "dgdgddgdehbfhw",
       customer_phone: "gdg465357457",
-      customer_registration_store_Id: "clhjb9tre0000pp9aefbmsufn",
     },
   });
 }

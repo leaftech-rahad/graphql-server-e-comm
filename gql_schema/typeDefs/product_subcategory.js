@@ -2,7 +2,7 @@ import gql from "graphql-tag";
 
 export default gql`
   extend type Query {
-    categories: [Product_subcategory!]!
+    subcategories: [Product_subcategory!]!
   }
   extend type Mutation {
     createSubCategory(
