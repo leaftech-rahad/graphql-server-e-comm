@@ -1,0 +1,8 @@
+query {
+  allCustomer {
+    customer_Id
+  }
+  getCustomer(customer_Id: "clhjb9tre0001pp9aip87atcz") {
+    customer_Name
+  }
+}
