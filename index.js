@@ -9,7 +9,38 @@ import pkg from "body-parser";
 const { json } = pkg;
 import typeDefs from "./gql_schema/typeDefs/index.js";
 import resolvers from "./gql_schema/resolvers/index.js";
+
+// import session from "express-session";
+// import RedisStore from "connect-redis";
+// import { createClient } from "redis";
+
+// Initialize client.
+// let redisClient = createClient();
+// redisClient.connect().catch(console.error);
+
 const app = express();
+
+// Initialize store.
+// let redisStore = new RedisStore({
+//   client: redisClient,
+//   prefix: "myapp:",
+// });
+
+// Initialize session storage.
+// app.use(
+//   session({
+//     store: redisStore,
+//     resave: false, // required: force lightweight session keep alive (touch)
+//     saveUninitialized: false, // recommended: only save session when data exists
+//     secret: "keyboard cat",
+//     rolling: true,
+//     cookie: {
+//       maxAge: 1000 * 60 * 60 * 24 * 7,
+//       secure: false,
+//     },
+//   })
+// );
+
 app.disable("x-powered-by");
 const httpServer = http.createServer(app);
 
