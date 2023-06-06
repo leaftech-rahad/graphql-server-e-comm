@@ -121,14 +121,15 @@ model Image {
 }
 
 model Customer {
-  customer_Id    String    @id @default(uuid())
-  customer_Name  String
-  customer_phone String    @unique
-  customer_email String?   @unique
-  customer_DOB   DateTime?
-  created_at     DateTime  @default(now())
-  updated_at     DateTime  @updatedAt
-  customer_area  Area      @default(savar)
+  customer_Id       String    @id @default(uuid())
+  customer_name     String
+  customer_phone    String    @unique
+  customer_email    String?   @unique
+  customer_DOB      DateTime?
+  created_at        DateTime  @default(now())
+  updated_at        DateTime  @updatedAt
+  customer_area     Area      @default(savar)
+  customer_password String
 
   Sales Sales[]
 

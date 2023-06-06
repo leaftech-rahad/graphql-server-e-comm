@@ -1,4 +1,6 @@
 import prisma from "../../prisma/prisma.js";
+import Joi from "joi";
+import { signUp } from "../../Auth/Joi/index.js";
 
 export default {
   Query: {
@@ -18,10 +20,17 @@ export default {
   },
   Mutation: {
     createCustomer: async (parent, args, { req }, info) => {
-      const values = args;
+      const values = await signUp.validateAsync(args);
+
       const data = await prisma.customer.create({
         data: values,
       });
+      const user = await prisma.customer.findUnique({
+        where: {
+          customer_Id: data.customer_Id,
+        },
+      });
+      return user;
     },
   },
 };
