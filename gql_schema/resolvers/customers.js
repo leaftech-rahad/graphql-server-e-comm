@@ -1,6 +1,6 @@
 import prisma from "../../prisma/prisma.js";
-import Joi from "joi";
 import { signUp } from "../../Auth/Joi/index.js";
+import { hashed_password, matched_password } from "../../Auth/bcrypt/index.js";
 
 export default {
   Query: {
@@ -19,12 +19,17 @@ export default {
     },
   },
   Mutation: {
-    createCustomer: async (parent, args, { req }, info) => {
+    signUp: async (parent, args, { req }, info) => {
       const values = await signUp.validateAsync(args);
+      const plain_password = values.customer_password;
+      values.customer_password = hashed_password(values.customer_password);
 
-      const data = await prisma.customer.create({
-        data: values,
-      });
+      if (plain_password !== values.customer_password) {
+        var data = await prisma.customer.create({
+          data: values,
+        });
+      }
+
       const user = await prisma.customer.findUnique({
         where: {
           customer_Id: data.customer_Id,

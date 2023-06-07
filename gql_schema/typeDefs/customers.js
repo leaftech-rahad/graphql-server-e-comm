@@ -7,7 +7,7 @@ export default gql`
   }
 
   extend type Mutation {
-    createCustomer(
+    signUp(
       customer_name: String!
       customer_phone: String!
       customer_email: String!
@@ -17,6 +17,7 @@ export default gql`
     ): Customer
   }
   type Customer {
+    customer_password: String!
     customer_Id: ID!
     customer_name: String!
     customer_phone: String!

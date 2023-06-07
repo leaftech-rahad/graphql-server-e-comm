@@ -14,34 +14,42 @@ import session from "express-session";
 import RedisStore from "connect-redis";
 import { createClient } from "redis";
 
-const IN_PROD = process.env.ENVIRONMENT === "production";
+const {
+  NODE_ENV,
+  COOKIE_LIFETIME,
+  SESSION_SECRET,
+  REDIS_HOST,
+  REDIS_PORT,
+  REDIS_PASSWORD,
+} = process.env;
 
-//Initialize client.
-const client = createClient({
-  password: "@Rahat7700",
-  socket: {
-    host: "redis-14872.c305.ap-south-1-1.ec2.cloud.redislabs.com",
-    port: 14872,
-  },
-});
+const IN_PROD = NODE_ENV === "production";
 
 const app = express();
 
-//Initialize store
-let redisStore = new RedisStore({
-  client,
-});
+// //Initialize client.
+// const client = createClient({
+//   password: REDIS_PASSWORD,
+//   socket: {
+//     host: REDIS_HOST,
+//     port: REDIS_PORT,
+//   },
+// });
+// //Initialize store
+// let redisStore = new RedisStore({
+//   client,
+// });
 
 //Initialize session storage.
 app.use(
   session({
-    store: redisStore,
+    //store: redisStore,
     resave: false, // required: force lightweight session keep alive (touch)
     saveUninitialized: false, // recommended: only save session when data exists
-    secret: "keyboard cat",
+    secret: SESSION_SECRET,
     rolling: true,
     cookie: {
-      maxAge: parseInt(process.env.COOKIE_LIFETIME),
+      maxAge: parseInt(COOKIE_LIFETIME),
       sameSite: true,
       secure: IN_PROD,
     },
@@ -49,6 +57,7 @@ app.use(
 );
 
 app.disable("x-powered-by");
+
 const httpServer = http.createServer(app);
 
 const server = new ApolloServer({
