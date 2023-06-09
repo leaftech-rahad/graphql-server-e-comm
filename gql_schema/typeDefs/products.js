@@ -3,6 +3,10 @@ import gql from "graphql-tag";
 export default gql`
   extend type Query {
     products: [Product!]!
+    getProductByName: [Product!]!
+    getProductById: Product
+    getProductByCategoryId: [Product!]!
+    getProductBySubCategoryId: [Product!]!
   }
 
   extend type Mutation {

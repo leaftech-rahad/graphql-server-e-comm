@@ -21,37 +21,40 @@ const {
   REDIS_HOST,
   REDIS_PORT,
   REDIS_PASSWORD,
+  SESS_NAME,
 } = process.env;
 
 const IN_PROD = NODE_ENV === "production";
 
 const app = express();
 
-// //Initialize client.
-// const client = createClient({
-//   password: REDIS_PASSWORD,
-//   socket: {
-//     host: REDIS_HOST,
-//     port: REDIS_PORT,
-//   },
-// });
-// //Initialize store
-// let redisStore = new RedisStore({
-//   client,
-// });
+//Initialize client.
+const client = createClient({
+  password: REDIS_PASSWORD,
+  socket: {
+    host: REDIS_HOST,
+    port: REDIS_PORT,
+  },
+});
+//Initialize store
+let redisStore = new RedisStore({
+  client,
+});
 
 //Initialize session storage.
 app.use(
   session({
-    //store: redisStore,
+    store: redisStore,
+    name: SESS_NAME,
     resave: false, // required: force lightweight session keep alive (touch)
     saveUninitialized: false, // recommended: only save session when data exists
     secret: SESSION_SECRET,
     rolling: true,
+
     cookie: {
       maxAge: parseInt(COOKIE_LIFETIME),
-      sameSite: true,
-      secure: IN_PROD,
+      sameSite: "strict",
+      secure: true,
     },
   })
 );
@@ -71,8 +74,8 @@ await server.start();
 app.use(
   "/graphql",
   cors({
-    // origin: true,
-    // credentials: true,
+    origin: ["http://localhost:4000"],
+    credentials: true,
   }),
   json(),
   expressMiddleware(server, {

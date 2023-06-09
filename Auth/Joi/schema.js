@@ -15,7 +15,8 @@ const password = Joi.string()
 const phone = Joi.string()
   .regex(/^[0-9]+$/)
   .min(11)
-  .max(11);
+  .max(11)
+  .required();
 
 const description = Joi.string().alphanum();
 
@@ -31,4 +32,14 @@ export const signUp = Joi.object().keys({
   customer_email,
   customer_password,
   customer_phone,
+});
+
+export const signInWithPhone = Joi.object().keys({
+  customer_password,
+  customer_phone,
+});
+
+export const signInWithEmail = Joi.object().keys({
+  customer_email,
+  customer_password,
 });
