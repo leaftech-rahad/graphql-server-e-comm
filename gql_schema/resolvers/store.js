@@ -3,8 +3,16 @@ import prisma from "../../prisma/prisma.js";
 
 export default {
   Query: {
-    getStores: async () => {
+    stores: async (parent, args, { req }, info) => {
       const data = await prisma.store.findMany({});
+      return data;
+    },
+    store: async (parent, args, { req }, info) => {
+      const data = await prisma.store.findUnique({
+        where: {
+          store_Id: args.store_Id,
+        },
+      });
       return data;
     },
   },

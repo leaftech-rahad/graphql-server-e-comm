@@ -2,7 +2,8 @@ import gql from "graphql-tag";
 
 export default gql`
   extend type Query {
-    getStores: [Store!]!
+    stores: [Store!]!
+    store(store_Id: ID!): Store
   }
   extend type Mutation {
     createStore(

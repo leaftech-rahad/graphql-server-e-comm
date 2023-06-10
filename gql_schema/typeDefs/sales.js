@@ -2,10 +2,11 @@ import gql from "graphql-tag";
 
 export default gql`
   extend type Query {
-    getSales: [Sales!]!
+    sales: [Sales!]!
+    sale(sale_Id: ID!): Sales
   }
   extend type Mutation {
-    sale(
+    makeSale(
       customer_Id: String!
       product_Id: String!
       product_pcs: Int!

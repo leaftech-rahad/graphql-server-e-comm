@@ -2,7 +2,8 @@ import gql from "graphql-tag";
 
 export default gql`
   extend type Query {
-    getSuppliers: [Supplier!]!
+    suppliers: [Supplier!]!
+    supplier(supplier_Id: ID!): Supplier
   }
   extend type Mutation {
     createSupplier(

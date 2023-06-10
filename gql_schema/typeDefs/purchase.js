@@ -2,7 +2,8 @@ import gql from "graphql-tag";
 
 export default gql`
   extend type Query {
-    allPurchase: [Purchase!]!
+    purchases: [Purchase!]!
+    purchase(product_purchase_Id: ID!): Purchase
   }
   extend type Mutation {
     makePurchase(
