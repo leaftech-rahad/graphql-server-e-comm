@@ -3,7 +3,7 @@ import gql from "graphql-tag";
 export default gql`
   extend type Query {
     getBrands: [Brand!]!
-    getBrandByName(brand_Id: ID!): [Brand!]!
+    getBrandByName(brand_Id: String!): [Brand!]!
     getBrandById(brand_name: String!): Brand
   }
   extend type Mutation {

@@ -10,21 +10,20 @@ export default {
         where: { subcategory_Id: args.subcategory_Id },
       });
     },
-
-    Product_category: {
-      product: async (parent, args, { req }, info) => {
-        return await prisma.product.findMany({
-          where: {
-            product_subcategory_Id: parent.subcategory_Id,
-          },
-        });
-      },
-    },
   },
   Mutation: {
     createSubCategory: async (parent, args, { req }, info) => {
       return await prisma.product_subcategory.create({
         data: args,
+      });
+    },
+  },
+  Product_category: {
+    product: async (parent, args, { req }, info) => {
+      return await prisma.product.findMany({
+        where: {
+          product_subcategory_Id: parent.subcategory_Id,
+        },
       });
     },
   },

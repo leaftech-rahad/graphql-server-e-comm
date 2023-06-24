@@ -28,7 +28,7 @@ model Product {
   product_description    String?
   product_usges          String?
   product_weight         Int?
-  Image                  Image[]
+  // Image                  Image[]
   product_category       Product_category?    @relation(fields: [product_category_Id], references: [category_Id])
   product_category_Id    String?
   product_subcategory    Product_subcategory? @relation(fields: [product_subcategory_Id], references: [subcategory_Id])
@@ -37,6 +37,7 @@ model Product {
   product_brand_Id       String?
   Purchase               Purchase[]
   Sales                  Sales[]
+  // Image                  Image[]
 
   @@index([product_name, product_Id])
 }
@@ -112,12 +113,14 @@ model Product_subcategory {
 
 model Image {
   image_Id          String  @id @default(uuid())
-  product           Product @relation(fields: [product_Id], references: [product_Id])
-  product_Id        String
-  filename          String
-  mimetype          String
-  encoding          String
-  image_description String
+  // product           Product? @relation(fields: [product_Id], references: [product_Id])
+  // product_Id        String?
+  filename          String?
+  mimetype          String?
+  encoding          String?
+  image_description String?
+  // Product           Product? @relation(fields: [productProduct_Id], references: [product_Id])
+  // productProduct_Id String?
 }
 
 model Customer {

@@ -3,7 +3,7 @@ import gql from "graphql-tag";
 export default gql`
   extend type Query {
     stores: [Store!]!
-    store(store_Id: ID!): Store
+    store(store_Id: String!): Store
   }
   extend type Mutation {
     createStore(

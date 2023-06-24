@@ -51,7 +51,7 @@ export default {
     createProduct: async (parent, args, { req, res }, info) => {
       //todo: add auth, joi validation
       const data = await prisma.product.create({
-        data: values,
+        data: args,
       });
       return data;
     },

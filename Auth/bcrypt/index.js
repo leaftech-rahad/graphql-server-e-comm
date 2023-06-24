@@ -13,8 +13,17 @@ export const hashed_password = (password) => {
 export const matched_password = (password, hash) =>
   bcrypt.compareSync(password, hash);
 
-export const checkSignedIn = async (req) => {
-  if (!req.session.user) {
+const signedIn = (req) => {
+  console.log("auth", req.session);
+  const id = req.session.userId;
+  console.log("id", id);
+  if (id) {
+    return true;
+  } else return false;
+};
+
+export const checkSignedIn = (req) => {
+  if (!signedIn(req)) {
     throw new GraphQLError("You are not signed in.", {
       extensions: {
         code: "UNAUTHENTICATED",
@@ -24,8 +33,9 @@ export const checkSignedIn = async (req) => {
   }
 };
 
-export const checkSignedOut = async (req) => {
-  if (req.session.user) {
+export const checkSignedOut = (req) => {
+  if (signedIn(req)) {
+    //todo: apollo error
     throw new GraphQLError("Your already signed in.", {
       extensions: {
         code: "UNAUTHENTICATED",
@@ -35,7 +45,7 @@ export const checkSignedOut = async (req) => {
   }
 };
 
-export const signOut = async (req, res) =>
+export const signOut = (req, res) =>
   new Promise((resolve, reject) => {
     //clearing cookie with session name
     res.clearCookie(SESS_NAME);

@@ -3,7 +3,7 @@ import gql from "graphql-tag";
 export default gql`
   extend type Query {
     suppliers: [Supplier!]!
-    supplier(supplier_Id: ID!): Supplier
+    supplier(supplier_Id: String!): Supplier
   }
   extend type Mutation {
     createSupplier(

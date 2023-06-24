@@ -3,7 +3,7 @@ import gql from "graphql-tag";
 export default gql`
   extend type Query {
     categories: [Product_category]
-    category(category_Id: ID!): Product_category
+    category(category_Id: String!): Product_category
   }
   extend type Mutation {
     createCategory(

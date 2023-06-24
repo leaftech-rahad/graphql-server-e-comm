@@ -2,8 +2,9 @@ import gql from "graphql-tag";
 //todo: remove password type
 export default gql`
   extend type Query {
-    getCustomer(customer_Id: ID!): Customer!
+    getCustomer(customer_Id: String!): Customer!
     allCustomer: [Customer!]!
+    customer: Customer!
   }
 
   extend type Mutation {

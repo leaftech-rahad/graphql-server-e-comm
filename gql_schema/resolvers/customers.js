@@ -15,24 +15,41 @@ import {
 
 export default {
   Query: {
-    getCustomer: async (parent, args, { req }, info) => {
-      await checkSignedIn(req);
+    customer: async (parent, args, { req }, info) => {
+      checkSignedIn(req);
+
+      const id = req.session.userId;
+
       const data = await prisma.customer.findUnique({
         where: {
-          customer_Id: args.customer_Id,
+          customer_Id: id,
         },
       });
-      console.log(req);
+
       return data;
     },
-    allCustomer: async (parent, args, context, info) => {
+    getCustomer: async (parent, args, { req }, info) => {
+      checkSignedIn(req);
+
+      const data = await prisma.customer.findUnique({
+        where: {
+          customer_Id: req.session.userId,
+        },
+      });
+
+      return data;
+    },
+    allCustomer: async (parent, args, { req, res }, info) => {
+      checkSignedIn(req);
       const data = await prisma.customer.findMany({});
+
       return data;
     },
   },
   Mutation: {
-    signUp: async (parent, args, { req }, info) => {
-      await checkSignedOut(req);
+    signUp: async (parent, args, { req, res }, info) => {
+      //const del = await prisma.customer.deleteMany();
+      checkSignedOut(req);
       const values = await signUp.validateAsync(args);
       const plain_password = values.customer_password;
       values.customer_password = hashed_password(values.customer_password);
@@ -47,20 +64,22 @@ export default {
         where: {
           customer_Id: data.customer_Id,
         },
-        select: {
-          customer_Id: true,
-        },
+        // select: {
+        //   customer_Id: true,
+        //   customer_password: true,
+        // },
       });
-      req.session.user = user.customer_Id;
+
+      req.session.userId = user.customer_Id;
 
       return user;
     },
 
     signIn: async (parent, args, { req, res }, info) => {
-      if (req.session.user) {
+      if (req.session.userId) {
         var user = await prisma.customer.findUnique({
           where: {
-            customer_Id: req.session.user,
+            customer_Id: req.session.userId,
           },
         });
         if (user) {
@@ -95,7 +114,7 @@ export default {
           data.customer_password
         );
         if (match) {
-          req.session.user = data.customer_Id;
+          req.session.userId = data.customer_Id;
           return data;
         } else throw new ApolloServerValidationErrorCode("Invalid Credentials");
       }

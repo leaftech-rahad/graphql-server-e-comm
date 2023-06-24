@@ -10,29 +10,29 @@ export default {
         where: { category_Id: args.category_Id },
       });
     },
-    Product_category: {
-      subcategory: async (parent, args, { req }, info) => {
-        return await prisma.product_subcategory.findMany({
-          where: {
-            product_category_Id: parent.category_Id,
-          },
-        });
-      },
-    },
-    Product_category: {
-      product: async (parent, args, { req }, info) => {
-        return await prisma.product.findMany({
-          where: {
-            product_category_Id: parent.category_Id,
-          },
-        });
-      },
-    },
   },
   Mutation: {
     createCategory: async (parent, args, { req }, info) => {
       return await prisma.product_category.create({
         data: args,
+      });
+    },
+  },
+  Product_category: {
+    subcategory: async (parent, args, { req }, info) => {
+      return await prisma.product_subcategory.findMany({
+        where: {
+          product_category_Id: parent.category_Id,
+        },
+      });
+    },
+  },
+  Product_category: {
+    product: async (parent, args, { req }, info) => {
+      return await prisma.product.findMany({
+        where: {
+          product_category_Id: parent.category_Id,
+        },
       });
     },
   },

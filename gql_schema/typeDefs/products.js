@@ -4,7 +4,7 @@ export default gql`
   extend type Query {
     products: [Product!]!
     getProductByName(product_name: String!): [Product!]!
-    getProductById(product_Id: ID!): Product
+    getProductById(product_Id: String!): Product
     getProductByCategoryId(product_category_Id: String!): [Product!]!
     getProductBySubCategoryId(product_subcategory_Id: String!): [Product!]!
   }
