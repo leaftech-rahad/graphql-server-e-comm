@@ -13,7 +13,11 @@ export default gql`
     Bkash
     CreditCard
   }
-
+  enum Role {
+    customer
+    admin
+    staff
+  }
   type Query {
     _: String
   }

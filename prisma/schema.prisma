@@ -133,10 +133,17 @@ model Customer {
   updated_at        DateTime  @updatedAt
   customer_area     Area      @default(savar)
   customer_password String
+  role              Role      @default(customer)
 
   Sales Sales[]
 
   @@index([customer_phone, customer_email])
+}
+
+enum Role {
+  customer
+  admin
+  staff
 }
 
 model Sales {

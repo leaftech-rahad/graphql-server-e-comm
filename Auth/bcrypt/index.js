@@ -14,10 +14,7 @@ export const matched_password = (password, hash) =>
   bcrypt.compareSync(password, hash);
 
 const signedIn = (req) => {
-  console.log("auth", req.session);
-  const id = req.session.userId;
-  console.log("id", id);
-  if (id) {
+  if (req.session.userId) {
     return true;
   } else return false;
 };
@@ -48,7 +45,7 @@ export const checkSignedOut = (req) => {
 export const signOut = (req, res) =>
   new Promise((resolve, reject) => {
     //clearing cookie with session name
-    res.clearCookie(SESS_NAME);
+    res.clearCookie(process.env.SESS_NAME);
 
     //destroying session instance of user
     req.session.destroy((err) => {

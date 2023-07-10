@@ -33,6 +33,7 @@ export default gql`
     created_at: DateTime
     updated_at: DateTime
     customer_area: Area
+    role: Role
     sales: [Sales!]!
   }
 `;
